@@ -3,26 +3,22 @@
 
 #include <stdint.h>
 
-typedef struct intrusiveNode
-{
-    struct intrusiveNode *next;
-    struct intrusiveNode *prev;
-} intrusiveNode;
+typedef struct intrusive_node {
+    struct intrusive_node *next;
+    struct intrusive_node *prev;
+} intrusive_node;
 
-typedef struct intrusiveList
-{
-    intrusiveNode head;
-} intrusiveList;
+typedef struct intrusive_list {
+    intrusive_node head;
+} intrusive_list;
 
-void initList(intrusiveList *);
+void init_list(intrusive_list *);
 
-void addNode(intrusiveList *, intrusiveNode *);
+void add_node(intrusive_list *, intrusive_node *);
 
 // contract: node != &list->head
-void removeNode(intrusiveList *, intrusiveNode *);
+void remove_node(intrusive_list *, intrusive_node *);
 
-int getLength(intrusiveList *);
-
-void apply(intrusiveList *list, void (*op)(intrusiveNode *node, void *data), void *data);
+void apply(intrusive_list *list, void (*op)(intrusive_node *node, void *data), void *data);
 
 #endif

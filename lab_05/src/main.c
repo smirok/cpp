@@ -10,130 +10,113 @@ const int TWENTY_FOUR_DEGREE = 1 << 24;
 
 const int MAX_VALUE = 5000000;
 
-void loadText(intrusiveList *list, char *fileName)
-{
-    int xValue, yValue;
-    FILE *fin = fopen(fileName, "r");
+void load_text(intrusive_list *list, char *file_name) {
+    int x, y;
+    FILE *fin = fopen(file_name, "r");
     assert(fin);
-    while (fscanf(fin, "%d %d", &xValue, &yValue) == 2)
-    {
-        addPoint(list, xValue, yValue);
+    while (fscanf(fin, "%d %d", &x, &y) == 2) {
+        add_point(list, x, y);
     }
     fclose(fin);
 }
 
-void loadBin(intrusiveList *list, char *fileName)
-{
-    FILE *fin = fopen(fileName, "rb");
+void load_bin(intrusive_list *list, char *file_name) {
+    FILE *fin = fopen(file_name, "rb");
     assert(fin);
-    uint8_t translatorX[3];
-    uint8_t translatorY[3];
-    while (fread(translatorX, 3, 1, fin) != 0)
-    {
-        fread(translatorY, 3, 1, fin);
-        int32_t currXValue = 0;
-        int32_t currYValue = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            currXValue += translatorX[i] * (1 << 8 * i);
-            currYValue += translatorY[i] * (1 << 8 * i);
+    uint8_t translator_x[3];
+    uint8_t translator_y[3];
+    while (fread(translator_x, 3, 1, fin) != 0) {
+        fread(translator_y, 3, 1, fin);
+        int32_t curr_x = 0;
+        int32_t curr_y = 0;
+        for (int i = 0; i < 3; i++) {
+            curr_x += translator_x[i] * (1 << 8 * i);
+            curr_y += translator_y[i] * (1 << 8 * i);
         }
-        if (currXValue > MAX_VALUE)
-            currXValue = currXValue - TWENTY_FOUR_DEGREE;
-        if (currYValue > MAX_VALUE)
-            currYValue = currYValue - TWENTY_FOUR_DEGREE;
-        addPoint(list, currXValue, currYValue);
+        if (curr_x > MAX_VALUE)
+            curr_x = curr_x - TWENTY_FOUR_DEGREE;
+        if (curr_y > MAX_VALUE)
+            curr_y = curr_y - TWENTY_FOUR_DEGREE;
+        printf("%d ", curr_x);
+        add_point(list, curr_x, curr_y);
     }
     fclose(fin);
 }
 
-void saveText(intrusiveList *list, char *fileName)
-{
-    FILE *fout = fopen(fileName, "w");
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-    pointNode *point;
-    for (; node != head; node = node->next)
-    {
-        point = getPoint(node);
-        int32_t xValue = point->x;
-        int32_t yValue = point->y;
-        fprintf(fout, "%d %d", xValue, yValue);
+void save_text(intrusive_list *list, char *file_name) {
+    FILE *fout = fopen(file_name, "w");
+    intrusive_node *head = &list->head;
+    intrusive_node *node = head->next;
+    point_node *point;
+    for (; node != head; node = node->next) {
+        point = get_point(node);
+        int32_t x_value = point->x;
+        int32_t y_value = point->y;
+        fprintf(fout, "%d %d", x_value, y_value);
         fprintf(fout, "\n");
     }
     fclose(fout);
 }
 
-void saveBin(intrusiveList *list, char *fileName)
-{
-    FILE *fout = fopen(fileName, "wb");
+void save_bin(intrusive_list *list, char *file_name) {
+    FILE *fout = fopen(file_name, "wb");
     assert(fout);
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-    pointNode *point;
-    uint8_t translatorX[3];
-    uint8_t translatorY[3];
-    for (; node != head; node = node->next)
-    {
-        point = getPoint(node);
-        int32_t xValue = point->x;
-        int32_t yValue = point->y;
-        if (xValue < 0)
-            xValue = xValue + TWENTY_FOUR_DEGREE;
-        if (yValue < 0)
-            yValue = yValue + TWENTY_FOUR_DEGREE;
-        for (int i = 2; i >= 0; i--)
-        {
-            translatorX[i] = xValue / (1 << 8 * i);
-            xValue -= (xValue / (1 << 8 * i)) * (1 << 8 * i);
-            translatorY[i] = yValue / (1 << 8 * i);
-            yValue -= (yValue / (1 << 8 * i)) * (1 << 8 * i);
+    intrusive_node *head = &list->head;
+    intrusive_node *node = head->next;
+    point_node *point;
+    uint8_t translator_x[3];
+    uint8_t translator_y[3];
+    for (; node != head; node = node->next) {
+        point = get_point(node);
+        int32_t x_value = point->x;
+        int32_t y_value = point->y;
+        if (x_value < 0)
+            x_value = x_value + TWENTY_FOUR_DEGREE;
+        if (y_value < 0)
+            y_value = y_value + TWENTY_FOUR_DEGREE;
+        for (int i = 2; i >= 0; i--) {
+            translator_x[i] = x_value / (1 << 8 * i);
+            x_value -= (x_value / (1 << 8 * i)) * (1 << 8 * i);
+            translator_y[i] = y_value / (1 << 8 * i);
+            y_value -= (y_value / (1 << 8 * i)) * (1 << 8 * i);
         }
-        fwrite(translatorX, 3, 1, fout);
-        fwrite(translatorY, 3, 1, fout);
+        fwrite(translator_x, 3, 1, fout);
+        fwrite(translator_y, 3, 1, fout);
     }
     fclose(fout);
 }
 
-int main(int argc, char *argv[])
-{
-    if (argc <= 1)
-    return EXIT_FAILURE;
-    intrusiveList list;
-    initList(&list);
+int main(int argc, char *argv[]) {
+    if (argc < 4 || argc > 5)
+        return EXIT_FAILURE;
 
-    if (strcmp(argv[1], "loadtext") == 0)
-    {
-        loadText(&list, argv[2]);
-    }
-    else if (strcmp(argv[1], "loadbin") == 0)
-    {
-        loadBin(&list, argv[2]);
+    intrusive_list list;
+    init_list(&list);
+
+    if (strcmp(argv[1], "loadtext") == 0) {
+        load_text(&list, argv[2]);
+    } else if (strcmp(argv[1], "loadbin") == 0) {
+        load_bin(&list, argv[2]);
     }
 
-    if (strcmp(argv[3], "savetext") == 0)
-    {
-        saveText(&list, argv[4]);
-    }
-    else if (strcmp(argv[3], "savebin") == 0)
-    {
-        saveBin(&list, argv[4]);
+    if (strcmp(argv[3], "savetext") == 0) {
+        save_text(&list, argv[4]);
+    } else if (strcmp(argv[3], "savebin") == 0) {
+        save_bin(&list, argv[4]);
     }
 
-    if (strcmp(argv[3], "print") == 0)
-    {
+    if (strcmp(argv[3], "print") == 0) {
         apply(&list, print, argv[4]);
         printf("\n");
     }
 
-    if (strcmp(argv[3], "count") == 0)
-    {
+    if (strcmp(argv[3], "count") == 0) {
         int32_t sum = 0;
         apply(&list, count, &sum);
         printf("%d", sum);
         printf("\n");
     }
-    removeAllPoints(&list);
+    remove_all_points(&list);
 
     return 0;
 }

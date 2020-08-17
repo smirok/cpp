@@ -7,93 +7,54 @@
 
 #define container_of(ptr, type, member) (type *)((char *)(ptr)-offsetof(type, member))
 
-pointNode *getPoint(intrusiveNode *node)
-{
-    return container_of(node, pointNode, node);
+int match_point(intrusive_node *node, int32_t x, int32_t y) {
+    point_node *p_node = get_point(node);
+    return p_node->x == x && p_node->y == y;
 }
 
-int matchPoint(intrusiveNode *node, int32_t x, int32_t y)
-{
-    pointNode *pNode = getPoint(node);
-    return pNode->x == x && pNode->y == y;
+void delete_point(intrusive_list *list, intrusive_node *node) {
+    remove_node(list, node);
+    free(get_point(node));
 }
 
-void deletePoint(intrusiveList *list, intrusiveNode *node)
-{
-    removeNode(list, node);
-    free(getPoint(node));
-}
+void remove_point(intrusive_list *list, int32_t x, int32_t y) {
+    intrusive_node *head = &list->head;
+    intrusive_node *node = head->next;
 
-void printPoint(intrusiveNode *node)
-{
-    pointNode *pNode = getPoint(node);
-    printf("(%d, %d)", pNode->x, pNode->y);
-}
+    while (node != head) {
+        intrusive_node *next = node->next;
 
-void printPointSecond(intrusiveNode *node, char *format)
-{
-    pointNode *pNode = getPoint(node);
-    printf(format, pNode->x, pNode->y);
-}
-
-void removePoint(intrusiveList *list, int32_t x, int32_t y)
-{
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-
-    while (node != head)
-    {
-        intrusiveNode *next = node->next;
-
-        if (matchPoint(node, x, y))
-            deletePoint(list, node);
+        if (match_point(node, x, y))
+            delete_point(list, node);
 
         node = next;
     }
 }
 
-void addPoint(intrusiveList *list, int32_t x, int32_t y)
-{
-    pointNode *pNode = malloc(sizeof(pointNode));
-    pNode->x = x;
-    pNode->y = y;
+void add_point(intrusive_list *list, int32_t x, int32_t y) {
+    point_node *p_node = malloc(sizeof(point_node));
+    p_node->x = x;
+    p_node->y = y;
 
-    addNode(list, &pNode->node);
+    add_node(list, &p_node->node);
 }
 
-void showAllPoints(intrusiveList *list)
-{
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-
-    printf("%d: ", getLength(list));
-
-    for (int i = 0; node != head; i++, node = node->next)
-    {
-        if (i)
-            printf(" ");
-        printPoint(node);
-    }
-
-    printf("\n");
-}
-
-void removeAllPoints(intrusiveList *list)
-{
+void remove_all_points(intrusive_list *list) {
     while (list->head.next != &list->head)
-        deletePoint(list, list->head.next);
+        delete_point(list, list->head.next);
 }
 
-void print(intrusiveNode *node, void *castFormat)
-{
-    char *format = (char *) castFormat;
-    pointNode *pNode = getPoint(node);
-    printf(format, pNode->x, pNode->y);
+void print(intrusive_node *node, void *format) {
+    point_node *p_node = get_point(node);
+    printf((char *) format, p_node->x, p_node->y);
 }
 
-void count(intrusiveNode *node, void *castSum)
-{
-    int32_t *sum = (int32_t *)castSum;
+void count(intrusive_node *node, void *cast_sum) {
+    int32_t *sum = (int32_t *) cast_sum;
     (void) node;
     *sum = *sum + 1;
+}
+
+point_node *get_point(intrusive_node *node) {
+    return container_of(node, point_node, node);
 }

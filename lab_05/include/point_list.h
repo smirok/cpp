@@ -3,25 +3,22 @@
 
 #include "clist.h"
 
-typedef struct pointNode
-{
+typedef struct point_node {
     int x;
     int y;
-    intrusiveNode node;
-} pointNode;
+    intrusive_node node;
+} point_node;
 
-void removePoint(intrusiveList *list, int32_t x, int32_t y);
+void remove_point(intrusive_list *list, int32_t x, int32_t y);
 
-void addPoint(intrusiveList *list, int32_t x, int32_t y);
+void add_point(intrusive_list *list, int32_t x, int32_t y);
 
-void showAllPoints(intrusiveList *list);
+void remove_all_points(intrusive_list *list);
 
-void removeAllPoints(intrusiveList *list);
+void print(intrusive_node *node, void *format);
 
-void print(intrusiveNode *node, void *castFormat);
+void count(intrusive_node *node, void *sum);
 
-void count(intrusiveNode *node, void *castSum);
-
-pointNode *getPoint(intrusiveNode *node);
+point_node *get_point(intrusive_node *node);
 
 #endif

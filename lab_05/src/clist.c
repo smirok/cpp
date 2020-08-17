@@ -1,15 +1,15 @@
 #include "clist.h"
 #include <stdio.h>
 
-void initList(intrusiveList *list) {
-    intrusiveNode *head = &list->head;
+void init_list(intrusive_list *list) {
+    intrusive_node *head = &list->head;
     head->next = head;
     head->prev = head;
 }
 
-void addNode(intrusiveList *list, intrusiveNode *node) {
-    intrusiveNode *last = list->head.prev;
-    intrusiveNode *head = &list->head;
+void add_node(intrusive_list *list, intrusive_node *node) {
+    intrusive_node *last = list->head.prev;
+    intrusive_node *head = &list->head;
 
     node->next = head;
     node->prev = last;
@@ -19,31 +19,19 @@ void addNode(intrusiveList *list, intrusiveNode *node) {
 }
 
 // contract: node != &list->head
-void removeNode(intrusiveList *list, intrusiveNode *node) {
+void remove_node(intrusive_list *list, intrusive_node *node) {
     (void) list;
-    intrusiveNode *prev = node->prev;
-    intrusiveNode *next = node->next;
+    intrusive_node *prev = node->prev;
+    intrusive_node *next = node->next;
 
     prev->next = next;
     next->prev = prev;
 }
 
-int getLength(intrusiveList *list) {
-    int length = 0;
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-
-    for (; node != head; node = node->next)
-        ++length;
-
-    return length;
-}
-
-void apply(intrusiveList *list, void (*op)(intrusiveNode *node, void *data), void *data){
-    intrusiveNode *head = &list->head;
-    intrusiveNode *node = head->next;
-    for (; node != head;node = node->next){
-        op(node, data);// op
+void apply(intrusive_list *list, void (*op)(intrusive_node *node, void *data), void *data) {
+    intrusive_node *head = &list->head;
+    intrusive_node *node = head->next;
+    for (; node != head; node = node->next) {
+        op(node, data);
     }
-    //printf("\n");
 }
