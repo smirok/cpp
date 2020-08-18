@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
 
 #include <cstddef>
 
@@ -24,3 +25,5 @@ private:
     std::size_t _cols;
     int **_data;
 };
+
+#endif // MATRIX_HPP

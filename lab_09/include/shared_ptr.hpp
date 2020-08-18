@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHARED_PTR_HPP
+#define SHARED_PTR_HPP
 
 #include "matrix.hpp"
 
@@ -8,7 +9,7 @@ public:
 	 * Получает объект по сырому указателю во владение.
 	 * Передача того же указателя во владение кому либо ещё — неопределённое поведение.
 	 */
-    shared_ptr(Matrix* obj = nullptr);
+    explicit shared_ptr(Matrix* obj = nullptr);
 	/**
 	 * Строит копию умного указателя, разделяя владение с оригиналом.
 	 */
@@ -38,7 +39,7 @@ public:
 private:
     class Storage {
     public:
-        Storage(Matrix* mtx);
+        explicit Storage(Matrix* mtx);
         ~Storage();
 
         void incr();
@@ -55,3 +56,5 @@ private:
 private:
     Storage *storage_;
 };
+
+#endif // SHARED_PTR_HPP
