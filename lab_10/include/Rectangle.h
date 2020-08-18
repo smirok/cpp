@@ -1,3 +1,6 @@
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
+
 #include "Figure.h"
 
 class Rectangle : public Figure
@@ -17,5 +20,7 @@ public:
     void set_height(int height);
 
 private:
-    int width, height;
+    int width_, height_;
 };
+
+#endif //RECTANGLE_H

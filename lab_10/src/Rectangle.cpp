@@ -1,43 +1,33 @@
 #include <iostream>
 #include "Rectangle.h"
 
-Rectangle::Rectangle(int id, int x, int y, int width, int height)
-{
-    set_id(id);
-    set_x(x);
-    set_y(y);
-    set_width(width);
-    set_height(height);
-}
+Rectangle::Rectangle(int id, int x, int y, int width, int height) :
+        Figure(id, x, y), width_(width), height_(height) {}
 
-void Rectangle::print() const
-{
+void Rectangle::print() const {
     std::cout << "Rectangle " << get_id() << ": "
               << "x = " << get_x() << " y = " << get_y()
-              << " width = " << get_width() << " height = " << get_height() << "\n";
+              << " width_ = " << get_width() << " height_ = " << get_height() << "\n";
 }
 
-bool Rectangle::is_inside(int x, int y) const
-{
-    return abs(x - get_x()) <= (float)get_width() / 2 && abs(y - get_y()) <= (float)get_height() / 2;
+bool Rectangle::is_inside(int x, int y) const {
+    return 2 * abs(x - get_x()) <= get_width() &&
+           2 * abs(y - get_y()) <= get_height();
 }
 
-void Rectangle::zoom(int factor)
-{
-    set_width(width * factor);
-    set_height(height * factor);
+void Rectangle::zoom(int factor) {
+    set_width(width_ * factor);
+    set_height(height_ * factor);
 }
 
-int Rectangle::get_height() const { return height; }
+int Rectangle::get_height() const { return height_; }
 
-int Rectangle::get_width() const { return width; }
+int Rectangle::get_width() const { return width_; }
 
-void Rectangle::set_height(int height_)
-{
-    this->height = height_;
+void Rectangle::set_height(int height) {
+    height_ = height;
 }
 
-void Rectangle::set_width(int width_)
-{
-    this->width = width_;
+void Rectangle::set_width(int width) {
+    width_ = width;
 }

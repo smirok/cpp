@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FIGURE_H
+#define FIGURE_H
 
 class Figure
 {
@@ -21,7 +22,9 @@ public:
     void set_y(int y);
 
 protected:
-    int id;
-    int x;
-    int y;
+    int id_;
+    int x_;
+    int y_;
 };
+
+#endif //FIGURE_H

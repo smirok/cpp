@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CIRCLE_H
+#define CIRCLE_H
 
 #include "Figure.h"
 
@@ -18,9 +19,11 @@ public:
     void set_radius(int radius);
     void set_label(const char *label);
 
-    int get_sqr(int value) const;
+    static int get_sqr(int value);
 
 private:
-    int radius;
-    char *label;
+    int radius_;
+    char *label_;
 };
+
+#endif //CIRCLE_H

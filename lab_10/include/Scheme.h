@@ -1,11 +1,12 @@
-#pragma once
+#ifndef SCHEME_H
+#define SCHEME_H
 
 #include "Figure.h"
 
 class Scheme
 {
 public:
-    Scheme(int capacity);
+    explicit Scheme(int capacity);
     ~Scheme();
 
     void push_back_figure(Figure *fg);
@@ -16,8 +17,12 @@ public:
     Figure *is_inside_figure(int x, int y); // если внутри нескольких фигур, то возвращается любая из них
     void move(int id, int new_x, int new_y);
 
+    Figure* find_by_id(int id);
+
 private:
     int size;
     int capacity;
     Figure **figures_; // размер массива задается в конструкторе и больше не растет
 };
+
+#endif //SCHEME_H

@@ -1,11 +1,10 @@
-#include <stdio.h>
+#include <cstdio>
 
 #include "Scheme.h"
 #include "Rectangle.h"
 #include "Circle.h"
 
-int main()
-{
+int main() {
     // all setters for simple change figure parameters if we need 
     Scheme scheme(10);
 
@@ -15,12 +14,9 @@ int main()
     scheme.print_all_figures();
 
     Figure *found = scheme.is_inside_figure(5, 5);
-    if (found != nullptr)
-    {
+    if (found != nullptr) {
         found->print();
-    }
-    else
-    {
+    } else {
         printf("not found\n");
     }
 
