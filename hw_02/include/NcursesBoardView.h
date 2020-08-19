@@ -9,23 +9,25 @@
 class NcursesBoardView : public View {
 
 public:
-    NcursesBoardView ();
+    NcursesBoardView();
 
     virtual ~NcursesBoardView();
 
     void showResultMessage(GameState) const override;
 
-    void showBoard(const vector <vector <FieldState>>&, int height, int width) const override;
+    void showBoard(const std::vector<std::vector<FieldState>> &field) const override;
 
     void showMoveNext(Players) const override;
 
     void showBadMove() const override;
 
-    bool enterCorrectTurn(int &x, int &y,const vector <vector <FieldState>>&,
-                          int height, int width, Players player) const override;
+    bool enterCorrectTurn(int &x, int &y,
+                          const std::vector<std::vector<FieldState>> &field,
+                          Players player) const override;
 
-    void showWinLine(int &x, int &y, const vector<vector<FieldState>>&,
-                        int height, int width, int winlen) const override;
+    void showWinLine(int &x, int &y,
+                    const std::vector <std::vector<FieldState>> & field,
+                     int winlen) const override;
 
     void screenClear() const;
 

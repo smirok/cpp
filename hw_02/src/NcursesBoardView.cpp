@@ -38,9 +38,9 @@ NcursesBoardView::~NcursesBoardView() {
     screenClear();
 }
 
-void NcursesBoardView::showBoard(const vector<vector<FieldState>> &field, int height, int width) const {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+void NcursesBoardView::showBoard(const std::vector<std::vector<FieldState>> &field) const {
+    for (int i = 0; i < field.size(); i++) {
+        for (int j = 0; j < field[0].size(); j++) {
             mvwaddch(win, i, j, (char) field[i][j]);
         }
     }
@@ -73,8 +73,9 @@ void NcursesBoardView::showMoveNext(Players player) const {
     wrefresh(message);
 }
 
-void NcursesBoardView::showWinLine(int &x, int &y, const vector<vector<FieldState>> &field,
-                                   int height, int width, int winlen) const {
+void NcursesBoardView::showWinLine(int &x, int &y,
+                                   const std::vector<std::vector<FieldState>> &field,
+                                   int winlen) const {
     int dx[NC::NUMBER_ROUTS] = {1, 1, 1, 0, -1, -1, -1, 0};
     int dy[NC::NUMBER_ROUTS] = {-1, 1, 0, 1, 1, -1, 0, -1};
     std::vector<std::pair<int, int>> route[NC::VIEW_ROUTS];
@@ -85,7 +86,7 @@ void NcursesBoardView::showWinLine(int &x, int &y, const vector<vector<FieldStat
         while (i < winlen) {
             int curX = x + i * dx[j];
             int curY = y + i * dy[j];
-            if (curX < height && curX >= 0 && curY < width && curY >= 0
+            if (curX < field.size() && curX >= 0 && curY < field[0].size() && curY >= 0
                 && field[x][y] == field[curX][curY]) {
                 route[j % NC::VIEW_ROUTS].emplace_back(curX, curY);
             }
@@ -113,8 +114,9 @@ void NcursesBoardView::showBadMove() const {
     wrefresh(message);
 }
 
-bool NcursesBoardView::enterCorrectTurn(int &x, int &y, const vector<vector<FieldState>> &field,
-                                        int height, int width, Players player) const {
+bool NcursesBoardView::enterCorrectTurn(int &x, int &y,
+                                        const std::vector<std::vector<FieldState>> &field,
+                                        Players player) const {
     int ch = 0;
     do {
         char prev;
@@ -126,7 +128,7 @@ bool NcursesBoardView::enterCorrectTurn(int &x, int &y, const vector<vector<Fiel
             prev = '.';
         wmove(win, x, y);
         ch = wgetch(win);
-        if ((ch == 's' || ch == KEY_DOWN) && x < height - 1) {
+        if ((ch == 's' || ch == KEY_DOWN) && x < field.size() - 1) {
             x++;
         }
         if ((ch == 'w' || ch == KEY_UP) && x > 0) {
@@ -135,7 +137,7 @@ bool NcursesBoardView::enterCorrectTurn(int &x, int &y, const vector<vector<Fiel
         if ((ch == 'a' || ch == KEY_LEFT) && y > 0) {
             y--;
         }
-        if ((ch == 'd' || ch == KEY_RIGHT) && y < width - 1) {
+        if ((ch == 'd' || ch == KEY_RIGHT) && y < field[0].size() - 1) {
             y++;
         }
         if (ch == 'x') {

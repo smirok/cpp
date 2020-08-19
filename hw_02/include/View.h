@@ -9,19 +9,21 @@ public:
 
     virtual ~View() {};
 
-    virtual void showBoard(const vector<vector<FieldState>> &field, int, int) const = 0;
+    virtual void showBoard(const std::vector<std::vector<FieldState>> &field) const = 0;
 
-    virtual void showResultMessage(GameState) const = 0;
+    virtual void showResultMessage(GameState state) const = 0;
 
-    virtual void showMoveNext(Players) const = 0;
+    virtual void showMoveNext(Players player) const = 0;
 
     virtual void showBadMove() const = 0;
 
-    virtual bool enterCorrectTurn(int &x, int &y, const vector<vector<FieldState>> &field,
-                                  int height, int width, Players player) const = 0;
+    virtual bool enterCorrectTurn(int &x, int &y,
+                                  const std::vector<std::vector<FieldState>> &field,
+                                  Players player) const = 0;
 
-    virtual void showWinLine(int &x, int &y, const vector<vector<FieldState>> &field,
-                             int height, int width, int winlen) const {};
+    virtual void showWinLine(int &x, int &y,
+                             const std::vector<std::vector<FieldState>> &field,
+                             int winlen) const {};
 };
 
 #endif //HW_02_VIEW_H

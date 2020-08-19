@@ -8,16 +8,17 @@
 class StdioBoardView : public View {
 public:
 
-    void showBoard(const vector<vector<FieldState >>&, int, int) const override;
+    void showBoard(const std::vector<std::vector<FieldState >> &field) const override;
 
     void showResultMessage(GameState) const override;
 
-    void showMoveNext(Players) const override;
+    void showMoveNext(Players player) const override;
 
     void showBadMove() const override;
 
-    bool enterCorrectTurn(int &x, int &y, const vector <vector <FieldState>>& field,
-                            int height, int width, Players player) const override;
+    bool enterCorrectTurn(int &x, int &y,
+                          const std::vector<std::vector<FieldState>> &field,
+                          Players player) const override;
 
 };
 

@@ -7,7 +7,7 @@
 #include "View.h"
 
 int main(int args, char **argv) {
-    Board TTTBoard(10, 10, 5);
+    Board board(10, 10, 5);
     Mode mode;
 
     if (args == 1)
@@ -26,9 +26,9 @@ int main(int args, char **argv) {
         view = new StdioBoardView;
     else
         view = new NcursesBoardView;
-    GameController TTTController(TTTBoard, *view, mode);
+    GameController controller(board, *view, mode);
 
-    TTTController.startNewGame();
+    controller.startNewGame();
     delete view;
     return 0;
 }

@@ -274,7 +274,7 @@ void BoardTest::TestGetWinLenCorrect() {
 
 void BoardTest::TestGetFieldEmpty() {
     Board b;
-    vector<vector<FieldState >> replica(10);
+    std::vector<std::vector<FieldState >> replica(10);
     for (int i = 0; i < 10; i++) {
         replica[i].resize(10);
         for (int j = 0; j < 10; j++)
@@ -285,7 +285,7 @@ void BoardTest::TestGetFieldEmpty() {
 
 void BoardTest::TestGetField() {
     Board b;
-    vector<vector<FieldState >> replica(10);
+    std::vector<std::vector<FieldState >> replica(10);
     for (int i = 0; i < 10; i++) {
         replica[i].resize(10);
         for (int j = 0; j < 10; j++)
@@ -300,7 +300,7 @@ void BoardTest::TestGetField() {
 
 void BoardTest::TestGetFieldWin() {
     Board b(5, 5, 5);
-    vector<vector<FieldState >> replica(5);
+    std::vector<std::vector<FieldState >> replica(5);
     for (int i = 0; i < 5; i++) {
         replica[i].resize(5);
         for (int j = 0; j < 5; j++)

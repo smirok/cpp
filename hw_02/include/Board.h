@@ -3,8 +3,6 @@
 
 #include <vector>
 
-using std::vector;
-
 enum class Players : char {
     O = 'O',
     X = 'X'
@@ -24,9 +22,17 @@ enum class FieldState : char {
 
 };
 
+enum class PARAMS : int {
+    HEIGHT = 10,
+    WIDTH = 10,
+    WIN_LENGTH = 5
+};
+
 class Board {
 public:
-    explicit Board(int height = 10, int width = 10, int win_length = 5);
+    explicit Board(int height = static_cast<int>(PARAMS::HEIGHT),
+                   int width = static_cast<int>(PARAMS::WIDTH),
+                   int win_length = static_cast<int>(PARAMS::WIN_LENGTH));
 
     bool canMove(int x, int y) const;
 
@@ -42,7 +48,7 @@ public:
 
     int getWinLen() const;
 
-    vector<vector<FieldState >> getField() const;
+    std::vector<std::vector<FieldState >> getField() const;
 
     Players getCurPlayer() const;
 
@@ -51,7 +57,7 @@ private:
     int _height;
     int _width;
     int _win_len;
-    vector<vector<FieldState >> _field;
+    std::vector<std::vector<FieldState >> _field;
 };
 
 #endif //HW_2_BOARD_H
