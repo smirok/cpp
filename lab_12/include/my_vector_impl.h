@@ -21,8 +21,9 @@ namespace my_vector {
 
     template<typename T, typename Allocator>
     my_vector<T, Allocator>::my_vector(const my_vector &other) : v(other.v.capacity_) {
+        using traits = std::allocator_traits<Allocator>;
         for (; v.size_ < other.v.size_; v.size_++) {
-            v.array_[v.size_] = other.v.array_[v.size_];
+            traits::construct(v.alloc,v.array_ + v.size_, T(other.v.array_[v.size_]));
         }
     }
 
@@ -82,7 +83,8 @@ namespace my_vector {
         if (n > v.capacity_) {
             vector_impl temp(n);
             for (; temp.size_ < v.size_; temp.size_++)
-                traits::construct(temp.alloc, temp.array_ + temp.size_, v.array_[temp.size_]);
+                traits::construct(temp.alloc, temp.array_ + temp.size_,
+                        std::move(v.array_[temp.size_]));
             v.swap(temp);
         }
     }

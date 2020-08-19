@@ -18,7 +18,7 @@ namespace product {
 
     class Product {
     public:
-        Product() noexcept : name_(new char[1]), quantity_(0), price_(0) {
+        Product() noexcept: name_(new char[1]), quantity_(0), price_(0) {
             name_[0] = 0;
         }
 
@@ -36,9 +36,9 @@ namespace product {
             /*Product temp(other);
             swap(temp);*/
             // Почему copy-swap trick не работает ? Не понимаю :(
-            if (this != &other){
+            if (this != &other) {
                 name_ = new char[strlen(other.name_) + 1];
-                strcpy(name_,other.name_);
+                strcpy(name_, other.name_);
                 price_ = other.price_;
                 quantity_ = other.quantity_;
             }
@@ -64,7 +64,7 @@ namespace product {
         void swap(Product &other) {
             std::swap(price_, other.price_);
             std::swap(quantity_, other.quantity_);
-            std::swap(name_,other.name_);
+            std::swap(name_, other.name_);
         }
 
         bool operator==(const Product &p) const {
